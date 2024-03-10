@@ -54,6 +54,10 @@ vim.opt.number = true
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
 
+-- Each pane having it's own statusline makes the editor too busy
+-- instead let's use a single global statusline
+vim.opt.laststatus = 3
+
 -- Keep the cursor a block in insert moderate
 vim.opt.guicursor = 'i:block'
 
@@ -177,15 +181,22 @@ require('lazy').setup({
 
   {
     'windwp/nvim-autopairs',
-    config = true,
-    event = 'InsertEnter',
+    -- Optional dependency
+    dependencies = { 'hrsh7th/nvim-cmp' },
+    config = function()
+      require('nvim-autopairs').setup {}
+      -- If you want to automatically add `(` after selecting a function or method
+      local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
+      local cmp = require 'cmp'
+      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+    end,
   },
-
   {
     'stevearc/oil.nvim',
     opts = {},
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
+      require('oil').setup()
       vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
     end,
   },
