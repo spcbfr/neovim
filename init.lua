@@ -31,6 +31,7 @@ If you experience any errors while trying to install kickstart, run `:checkhealt
 I hope you enjoy your Neovim journey,
 - TJ and Yusuf
 
+
 --]]
 
 -- Set <space> as the leader key
@@ -112,7 +113,11 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+
+-- Emacs-inspired keymaps
 vim.keymap.set('n', '<leader>bd', ':bd<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>bs', ':w<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>qq', ':q<CR>', { noremap = true, silent = true })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -121,12 +126,6 @@ vim.keymap.set('n', '<leader>bd', ':bd<CR>', { noremap = true, silent = true })
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-
--- TIP: Disable arrow keys in normal mode
--- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
--- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
--- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
--- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
@@ -174,24 +173,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
 
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  {
-    'tpope/vim-sleuth',
-    config = function()
-      -- Indenting defaults (does not override vim-sleuth's indenting detection)
-      -- Defaults to 4 spaces for most filetypes
-      if vim.g._has_set_default_indent_settings == nil then
-        -- Set the indenting level to 2 spaces for the following file types.
-        vim.cmd [[
-        autocmd FileType typescript,javascript,jsx,tsx,css,html,ruby,elixir,kotlin,vim,plantuml
-            \ setlocal expandtab tabstop=2 shiftwidth=2
-    ]]
-        vim.opt.expandtab = true
-        vim.opt.tabstop = 4
-        vim.opt.shiftwidth = 4
-        vim.g._has_set_default_indent_settings = 1
-      end
-    end,
-  }, -- Detect tabstop and shiftwidth automatically
+  'Darazaki/indent-o-matic',
 
   {
     'windwp/nvim-autopairs',
@@ -204,7 +186,6 @@ require('lazy').setup({
     opts = {},
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-      require('oil').setup()
       vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
     end,
   },
@@ -725,17 +706,11 @@ require('lazy').setup({
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`
     'rose-pine/neovim',
+
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
-      require('rose-pine').setup {
-        variant = 'main',
-      }
-      -- Load the colorscheme here
-      vim.cmd.colorscheme 'rose-pine'
-
-      -- You can configure highlights by doing something like
-      vim.cmd.hi 'Comment gui=none'
+      vim.cmd.colorscheme 'rose-pine-main'
     end,
   },
 
@@ -777,6 +752,7 @@ require('lazy').setup({
       },
     },
   },
+
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
