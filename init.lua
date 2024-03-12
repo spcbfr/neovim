@@ -47,9 +47,10 @@ vim.g.maplocalleader = ' '
 
 -- Make line numbers default
 vim.opt.number = true
+vim.opt.tabstop = 4
+
 -- You can also add relative line numbers, for help with jumping.
---  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -177,7 +178,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
 
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'Darazaki/indent-o-matic',
+  'tpope/vim-sleuth',
 
   {
     'windwp/nvim-autopairs',
