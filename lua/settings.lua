@@ -24,7 +24,7 @@ vim.opt.mouse = 'a'
 vim.opt.laststatus = 3
 
 -- Keep the cursor a block in insert moderate
-vim.opt.guicursor = 'i:block'
+-- vim.opt.guicursor = 'i:block'
 
 -- Don't show the mode, since it's already in status line
 vim.opt.showmode = false

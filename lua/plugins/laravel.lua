@@ -1,17 +1,25 @@
 return {
-  'adalessa/laravel.nvim',
-  dependencies = {
-    'nvim-telescope/telescope.nvim',
-    'tpope/vim-dotenv',
-    'MunifTanjim/nui.nvim',
-    'nvimtools/none-ls.nvim',
+  {
+    'adalessa/laravel.nvim',
+    dependencies = {
+      'nvim-telescope/telescope.nvim',
+      'tpope/vim-dotenv',
+      'MunifTanjim/nui.nvim',
+      'nvimtools/none-ls.nvim',
+    },
+    cmd = { 'Sail', 'Artisan', 'Composer', 'Npm', 'Yarn', 'Laravel' },
+    keys = {
+      { '<leader>la', ':Laravel artisan<cr>' },
+      { '<leader>lr', ':Laravel routes<cr>' },
+      { '<leader>lm', ':Laravel related<cr>' },
+    },
+    event = { 'VeryLazy' },
+    config = function()
+      vim.filetype.add {
+        pattern = {
+          ['.*%.blade%.php'] = 'blade',
+        },
+      }
+    end,
   },
-  cmd = { 'Sail', 'Artisan', 'Composer', 'Npm', 'Yarn', 'Laravel' },
-  keys = {
-    { '<leader>la', ':Laravel artisan<cr>' },
-    { '<leader>lr', ':Laravel routes<cr>' },
-    { '<leader>lm', ':Laravel related<cr>' },
-  },
-  event = { 'VeryLazy' },
-  config = true,
 }

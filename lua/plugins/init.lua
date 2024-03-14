@@ -1,16 +1,18 @@
---          .---.     .---.
---         ( -o- )---( -o- )
---         ;-...-`   `-...-;
---        /                 \
---       /                   \
---      | /_               _\ |
---      \`'.`'"--.....--"'`.'`/
---       \  '.   `._.`   .'  /
---    _.-''.  `-.,___,.-`  .''-._
---   `--._  `'-._______.-'`  _.--`
---   jgs  /                 \
---       /.-'`\   .'.   /`'-.\
---      `      '.'   '.'
+--[[
+          .---.     .---.
+         ( -o- )---( -o- )
+         ;-...-`   `-...-;
+        /                 \
+       /                   \
+      | /_               _\ |   Lazy configs, am I right?
+      \`'.`'"--.....--"'`.'`/
+       \  '.   `._.`   .'  /
+    _.-''.  `-.,___,.-`  .''-._
+   `--._  `'-._______.-'`  _.--`
+   jgs  /                 \
+       /.-'`\   .'.   /`'-.\
+      `      '.'   '.'
+--]]
 
 return {
 
@@ -132,20 +134,6 @@ return {
     },
   },
   'onsails/lspkind.nvim',
-
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`
-    'rose-pine/neovim',
-
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
-    config = function()
-      vim.cmd.colorscheme 'rose-pine-main'
-    end,
-  },
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
