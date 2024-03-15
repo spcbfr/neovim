@@ -50,10 +50,11 @@ return {
       'sindrets/diffview.nvim', -- optional - Diff integration
       'nvim-telescope/telescope.nvim',
     },
-    config = function()
-      require('neogit').setup {}
-      vim.keymap.set('n', '<leader>ng', '<cmd>:Neogit<cr>', { desc = 'Open neogit' })
-    end,
+    config = true,
+    cmd = 'Neogit',
+    keys = {
+      { '<leader>ng', '<cmd>:Neogit<cr>', desc = 'Open [N]eo[G]it' },
+    },
   },
 
   -- Use `opts = {}` to force a plugin to be loaded.
@@ -133,7 +134,6 @@ return {
       },
     },
   },
-  'onsails/lspkind.nvim',
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
@@ -166,7 +166,7 @@ return {
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     opts = {
       options = {
-        icons_enabled = false,
+        icons_enabled = true,
         component_separators = '',
         section_separators = '',
       },
