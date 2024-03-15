@@ -2,11 +2,6 @@
 
 return {
 
-  -- Lua
-
-  {
-    'olivercederborg/poimandres.nvim',
-  },
   { 'rose-pine/neovim' },
   {
     'catppuccin/nvim',
