@@ -29,6 +29,10 @@ vim.opt.rtp:prepend(lazypath)
 -- NOTE: this reads files in ./lua/plugins/*.lua
 -- and merges them into the main plugin spec
 -- to add a new plugin create a new file in lua/plugins/
-require('lazy').setup 'plugins'
+require('lazy').setup('plugins', {
+  change_detection = {
+    enabled = false,
+  },
+})
 
 -- vim: ts=2 sts=2 sw=2 et
