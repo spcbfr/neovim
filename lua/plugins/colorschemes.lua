@@ -2,11 +2,15 @@
 
 return {
 
-  { 'rose-pine/neovim' },
+  {
+    'ellisonleao/gruvbox.nvim',
+  },
+  {
+    'rose-pine/neovim',
+  },
   {
     'catppuccin/nvim',
     name = 'catppuccin',
-
     priority = 1000,
     lazy = false,
     init = function()

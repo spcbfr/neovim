@@ -85,15 +85,24 @@ return {
     -- do as well as how to actually do it!
 
     require('telescope').setup {
-      -- You can put your default mappings / updates / etc. in here
-      --  All the info you're looking for is in `:help telescope.setup()`
-      --
-      -- defaults = {
-      --   mappings = {
-      --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-      --   },
-      -- },
-      -- pickers = {}
+      defaults = {
+        file_ignore_patterns = { 'node_modules', 'vendor' },
+        selection_caret = '  ',
+        prompt_prefix = '   ',
+        layout_strategy = 'horizontal',
+        layout_config = {
+          horizontal = {
+            preview_width = 0.55,
+            results_width = 0.8,
+          },
+          vertical = {
+            mirror = false,
+          },
+          width = 0.87,
+          height = 0.80,
+          preview_cutoff = 120,
+        },
+      },
       extensions = {
         ['ui-select'] = {
           require('telescope.themes').get_dropdown(),

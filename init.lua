@@ -17,8 +17,7 @@ require 'settings'
 require 'mappings'
 require 'autocmds'
 
--- [[ Install `lazy.nvim` plugin manager ]]
---    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
+-- Installing the Lazy.nvim™ Package Manager
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
@@ -26,7 +25,7 @@ if not vim.loop.fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
--- NOTE: this reads files in ./lua/plugins/*.lua
+-- this reads files in ./lua/plugins/*.lua
 -- and merges them into the main plugin spec
 -- to add a new plugin create a new file in lua/plugins/
 require('lazy').setup('plugins', {
