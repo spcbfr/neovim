@@ -83,6 +83,27 @@ return {
       },
     },
   },
+  {
+    'folke/trouble.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      vim.keymap.set('n', '<leader>dq', function()
+        require('trouble').toggle()
+      end)
+    end,
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      icons = true,
+      signs = {
+        error = '',
+        warning = '',
+        hint = '',
+        information = '',
+        other = '',
+      },
+    },
+  },
 
   -- NOTE: Plugins can also be configured to run lua code when they are loaded.
   --
