@@ -44,6 +44,7 @@ return {
     end,
   },
 
+  -- lazy.nvim
   {
     'NeogitOrg/neogit',
     dependencies = {
@@ -89,7 +90,7 @@ return {
     config = function()
       vim.keymap.set('n', '<leader>dq', function()
         require('trouble').toggle()
-      end)
+      end, { desc = 'Open [D]iagnostics list' })
     end,
     opts = {
       -- your configuration comes here

@@ -36,6 +36,7 @@ return {
     local luasnip = require 'luasnip'
     local lspkind = require 'lspkind'
     luasnip.config.setup()
+    require('luasnip.loaders.from_lua').load { paths = '~/.config/nvim/lua/snippets' }
 
     cmp.setup {
       snippet = {

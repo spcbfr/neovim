@@ -9,12 +9,15 @@ return {
     'rose-pine/neovim',
   },
   {
-    'catppuccin/nvim',
-    name = 'catppuccin',
+    'folke/tokyonight.nvim',
     priority = 1000,
     lazy = false,
     init = function()
-      vim.cmd 'colorscheme catppuccin-mocha'
+      vim.cmd 'colorscheme tokyonight-night'
     end,
+  },
+  {
+    'catppuccin/nvim',
+    name = 'catppuccin',
   },
 }
