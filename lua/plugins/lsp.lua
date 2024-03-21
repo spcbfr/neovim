@@ -147,11 +147,6 @@ return {
         -- But for many setups, the LSP (`tsserver`) will work just fine
         tsserver = {},
         --
-        astro = {
-          cmd = { 'astro-ls' },
-          filetypes = { 'astro' },
-          init_options = { 'typescript' },
-        },
 
         lua_ls = {
           -- cmd = {...},

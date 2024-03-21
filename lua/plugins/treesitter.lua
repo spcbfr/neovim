@@ -9,8 +9,16 @@ return {
     build = ':TSUpdate',
     config = function()
       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+      vim.filetype.add {
+        extension = {
+          mdx = 'mdx',
+        },
+      }
 
       local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+      local ft_to_parser = require('nvim-treesitter.parsers').filetype_to_parsername
+      ft_to_parser.mdx = 'markdown'
+
       ---@diagnostic disable-next-line: inject-field
       parser_config.blade = {
         install_info = {
@@ -22,7 +30,7 @@ return {
       }
       ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup {
-        ensure_installed = { 'bash', 'org', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc' },
+        ensure_installed = { 'bash', 'org', 'c', 'html', 'tsx', 'lua', 'markdown', 'vim', 'vimdoc' },
         -- Autoinstall languages that are not installed
         auto_install = true,
         highlight = { enable = true },
