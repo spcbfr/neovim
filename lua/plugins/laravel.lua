@@ -15,6 +15,7 @@ return {
     },
     event = { 'VeryLazy' },
     config = function()
+      require('laravel').setup()
       vim.filetype.add {
         pattern = {
           ['.*%.blade%.php'] = 'blade',

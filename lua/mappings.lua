@@ -26,7 +26,7 @@ map('n', '<leader>de', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]r
 -- Doom Emacs-inspired keymaps
 map('n', '<leader>bd', ':bd<CR>', { noremap = true, silent = true })
 map('n', '<leader>bs', ':w<CR>', { noremap = true, silent = true })
-map('n', '<leader>qq', ':q<CR>', { noremap = true, silent = true })
+map('n', '<leader>qq', ':xa<CR>', { noremap = true, silent = true })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which

@@ -16,8 +16,7 @@ return {
       }
 
       local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-      local ft_to_parser = require('nvim-treesitter.parsers').filetype_to_parsername
-      ft_to_parser.mdx = 'markdown'
+      vim.treesitter.language.register('markdown', 'mdx')
 
       ---@diagnostic disable-next-line: inject-field
       parser_config.blade = {

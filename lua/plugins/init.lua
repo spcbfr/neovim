@@ -16,9 +16,6 @@
 
 return {
 
-  -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'tpope/vim-sleuth',
-
   {
     'windwp/nvim-autopairs',
     -- Optional dependency
@@ -28,21 +25,57 @@ return {
       require('nvim-autopairs').setup {}
       -- If you want to automatically add `(` after selecting a function or method
       local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
+
       local cmp = require 'cmp'
 
       ---@diagnostic disable-next-line: undefined-field
       cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
     end,
   },
+  { 'chrisgrieser/nvim-spider', lazy = true },
+  {
+    'echasnovski/mini.icons',
+    lazy = true,
+    specs = {
+      { 'nvim-tree/nvim-web-devicons', enabled = false, optional = true },
+    },
+    init = function()
+      package.preload['nvim-web-devicons'] = function()
+        require('mini.icons').mock_nvim_web_devicons()
+        return package.loaded['nvim-web-devicons']
+      end
+    end,
+  },
+  {
+    'nat-418/boole.nvim',
+    config = function()
+      require('boole').setup {
+        mappings = {
+          increment = '<C-a>',
+          decrement = '<C-x>',
+        },
+        -- User defined loops
+        additions = {
+          { 'Foo', 'Bar' },
+          { 'tic', 'tac', 'toe' },
+        },
+        allow_caps_additions = {
+          { 'enable', 'disable' },
+        },
+      }
+    end,
+  },
   {
     'stevearc/oil.nvim',
     opts = {},
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    dependencies = { 'echasnovski/mini.icons' },
     config = function()
       require('oil').setup()
       vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
     end,
   },
+
+  { 'akinsho/toggleterm.nvim', version = '*', config = true },
 
   -- lazy.nvim
   {
@@ -66,6 +99,23 @@ return {
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
+  -- Lua
+  {
+    'folke/zen-mode.nvim',
+    config = function()
+      require('zen-mode').setup {
+
+        window = {
+          options = {
+            number = false,
+          },
+        },
+        plugins = {
+          tmux = { enabled = false },
+        },
+      }
+    end,
+  },
 
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`. This is equivalent to the following lua:
@@ -86,24 +136,27 @@ return {
   },
   {
     'folke/trouble.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function()
-      vim.keymap.set('n', '<leader>dq', function()
-        require('trouble').toggle()
-      end, { desc = 'Open [D]iagnostics list' })
-    end,
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      icons = true,
-      signs = {
-        error = '',
-        warning = '',
-        hint = '',
-        information = '',
-        other = '',
+    opts = {},
+    cmd = 'Trouble',
+    keys = {
+      {
+        '<leader>dq',
+        '<cmd>Trouble diagnostics toggle<cr>',
+        desc = 'Diagnostics (Trouble)',
       },
     },
+    -- opts = {
+    --   -- your configuration comes here
+    --   -- or leave it empty to use the default settings
+    --   icons = true,
+    --   signs = {
+    --     error = '',
+    --     warning = '',
+    --     hint = '',
+    --     information = '',
+    --     other = '',
+    --   },
+    -- },
   },
 
   -- NOTE: Plugins can also be configured to run lua code when they are loaded.
@@ -138,26 +191,6 @@ return {
     end,
   },
 
-  { -- Autoformat
-    'stevearc/conform.nvim',
-    opts = {
-      notify_on_error = false,
-      format_on_save = {
-        timeout_ms = 500,
-        lsp_fallback = true,
-      },
-      formatters_by_ft = {
-        lua = { 'stylua' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use a sub-list to tell conform to run *until* a formatter
-        -- is found.
-        -- javascript = { { "prettierd", "prettier" } },
-      },
-    },
-  },
-
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
@@ -179,17 +212,24 @@ return {
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
 
+      require('mini.tabline').setup()
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
+    end,
+  },
+  {
+    'NMAC427/guess-indent.nvim',
+    config = function()
+      require('guess-indent').setup {}
     end,
   },
 
   {
     'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       require('lualine').setup {
         options = {
+          theme = 'auto',
           icons_enabled = true,
           component_separators = '',
           section_separators = '',
