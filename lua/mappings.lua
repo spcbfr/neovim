@@ -24,9 +24,9 @@ map('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic messa
 map('n', '<leader>de', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 
 -- Doom Emacs-inspired keymaps
-map('n', '<leader>bd', ':bd<CR>', { noremap = true, silent = true })
-map('n', '<leader>bs', ':w<CR>', { noremap = true, silent = true })
-map('n', '<leader>qq', ':xa<CR>', { noremap = true, silent = true })
+map('n', '<leader>bd', ':bd<CR>', { noremap = true, silent = true, desc= 'delete buffer' })
+map('n', '<leader>bs', ':w<CR>', { noremap = true, silent = true, desc= 'save buffer' })
+map('n', '<leader>qq', ':xa<CR>', { noremap = true, silent = true, desc = "close neovim"})
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which

@@ -32,7 +32,6 @@ return {
       cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
     end,
   },
-  { 'chrisgrieser/nvim-spider', lazy = true },
   {
     'echasnovski/mini.icons',
     lazy = true,
@@ -75,8 +74,6 @@ return {
     end,
   },
 
-  { 'akinsho/toggleterm.nvim', version = '*', config = true },
-
   -- lazy.nvim
   {
     'NeogitOrg/neogit',
@@ -99,23 +96,6 @@ return {
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
-  -- Lua
-  {
-    'folke/zen-mode.nvim',
-    config = function()
-      require('zen-mode').setup {
-
-        window = {
-          options = {
-            number = false,
-          },
-        },
-        plugins = {
-          tmux = { enabled = false },
-        },
-      }
-    end,
-  },
 
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`. This is equivalent to the following lua:
@@ -181,12 +161,19 @@ return {
       require('which-key').setup()
 
       -- Document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+      require('which-key').add {
+        {
+          { '<leader>c', group = '[C]ode' },
+          { '<leader>c_', hidden = true },
+          { '<leader>d', group = '[D]ocument' },
+          { '<leader>d_', hidden = true },
+          { '<leader>r', group = '[R]ename' },
+          { '<leader>r_', hidden = true },
+          { '<leader>s', group = '[S]earch' },
+          { '<leader>s_', hidden = true },
+          { '<leader>w', group = '[W]orkspace' },
+          { '<leader>w_', hidden = true },
+        },
       }
     end,
   },
