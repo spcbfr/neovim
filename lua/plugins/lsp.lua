@@ -148,7 +148,9 @@ return {
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
         tsserver = {},
-        --
+        phpactor = {
+          enabled = true,
+        },
 
         lua_ls = {
           -- cmd = {...},
