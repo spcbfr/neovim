@@ -16,9 +16,6 @@
 
 return {
 
-  -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'tpope/vim-sleuth',
-
   {
     'windwp/nvim-autopairs',
     -- Optional dependency
@@ -28,6 +25,7 @@ return {
       require('nvim-autopairs').setup {}
       -- If you want to automatically add `(` after selecting a function or method
       local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
+
       local cmp = require 'cmp'
 
       ---@diagnostic disable-next-line: undefined-field
@@ -35,9 +33,46 @@ return {
     end,
   },
   {
+    'echasnovski/mini.icons',
+    lazy = true,
+    opts = {
+      filetype = {
+        dotenv = { glyph = '', hl = 'MiniIconsYellow' },
+      },
+    },
+    specs = {
+      { 'nvim-tree/nvim-web-devicons', enabled = false, optional = true },
+    },
+    init = function()
+      package.preload['nvim-web-devicons'] = function()
+        require('mini.icons').mock_nvim_web_devicons()
+        return package.loaded['nvim-web-devicons']
+      end
+    end,
+  },
+  {
+    'nat-418/boole.nvim',
+    config = function()
+      require('boole').setup {
+        mappings = {
+          increment = '<C-a>',
+          decrement = '<C-x>',
+        },
+        -- User defined loops
+        additions = {
+          { 'Foo', 'Bar' },
+          { 'tic', 'tac', 'toe' },
+        },
+        allow_caps_additions = {
+          { 'enable', 'disable' },
+        },
+      }
+    end,
+  },
+  {
     'stevearc/oil.nvim',
     opts = {},
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    dependencies = { 'echasnovski/mini.icons' },
     config = function()
       require('oil').setup()
       vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
@@ -86,24 +121,27 @@ return {
   },
   {
     'folke/trouble.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function()
-      vim.keymap.set('n', '<leader>dq', function()
-        require('trouble').toggle()
-      end, { desc = 'Open [D]iagnostics list' })
-    end,
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      icons = true,
-      signs = {
-        error = '',
-        warning = '',
-        hint = '',
-        information = '',
-        other = '',
+    opts = {},
+    cmd = 'Trouble',
+    keys = {
+      {
+        '<leader>dq',
+        '<cmd>Trouble diagnostics toggle<cr>',
+        desc = 'Diagnostics (Trouble)',
       },
     },
+    -- opts = {
+    --   -- your configuration comes here
+    --   -- or leave it empty to use the default settings
+    --   icons = true,
+    --   signs = {
+    --     error = '',
+    --     warning = '',
+    --     hint = '',
+    --     information = '',
+    --     other = '',
+    --   },
+    -- },
   },
 
   -- NOTE: Plugins can also be configured to run lua code when they are loaded.
@@ -128,34 +166,21 @@ return {
       require('which-key').setup()
 
       -- Document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+      require('which-key').add {
+        {
+          { '<leader>c', group = '[C]ode' },
+          { '<leader>c_', hidden = true },
+          { '<leader>d', group = '[D]ocument' },
+          { '<leader>d_', hidden = true },
+          { '<leader>r', group = '[R]ename' },
+          { '<leader>r_', hidden = true },
+          { '<leader>s', group = '[S]earch' },
+          { '<leader>s_', hidden = true },
+          { '<leader>w', group = '[W]orkspace' },
+          { '<leader>w_', hidden = true },
+        },
       }
     end,
-  },
-
-  { -- Autoformat
-    'stevearc/conform.nvim',
-    opts = {
-      notify_on_error = false,
-      format_on_save = {
-        timeout_ms = 500,
-        lsp_fallback = true,
-      },
-      formatters_by_ft = {
-        lua = { 'stylua' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use a sub-list to tell conform to run *until* a formatter
-        -- is found.
-        -- javascript = { { "prettierd", "prettier" } },
-      },
-    },
   },
 
   -- Highlight todo, notes, etc in comments
@@ -171,6 +196,18 @@ return {
       --  - yinq - [Y]ank [I]nside [N]ext [']quote
       --  - ci'  - [C]hange [I]nside [']quote
       require('mini.ai').setup { n_lines = 500 }
+      require('mini.pairs').setup {
+        modes = { insert = true, command = true, terminal = false },
+        -- skip autopair when next character is one of these
+        skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
+        -- skip autopair when the cursor is inside these treesitter nodes
+        skip_ts = { 'string' },
+        -- skip autopair when next character is closing pair
+        -- and there are more closing pairs than opening pairs
+        skip_unbalanced = true,
+        -- better deal with markdown code blocks
+        markdown = true,
+      }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
@@ -179,31 +216,17 @@ return {
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
 
+      require('mini.tabline').setup()
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
-
   {
-    'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    'NMAC427/guess-indent.nvim',
     config = function()
-      require('lualine').setup {
-        options = {
-          icons_enabled = true,
-          component_separators = '',
-          section_separators = '',
-        },
-
-        sections = {
-          lualine_b = {
-            {
-              require('grapple').statusline,
-              cond = require('grapple').exists,
-            },
-          },
-        },
-      }
+      require('guess-indent').setup {}
     end,
   },
+
+  
 }

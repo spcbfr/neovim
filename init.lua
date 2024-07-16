@@ -22,7 +22,7 @@ local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
   vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
-end ---@diagnostic disable-next-line: undefined-field
+end
 vim.opt.rtp:prepend(lazypath)
 
 -- this reads files in ./lua/plugins/*.lua
@@ -30,7 +30,7 @@ vim.opt.rtp:prepend(lazypath)
 -- to add a new plugin create a new file in lua/plugins/
 require('lazy').setup('plugins', {
   change_detection = {
-    enabled = false,
+    enabled = false
   },
 })
 

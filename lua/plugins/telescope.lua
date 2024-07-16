@@ -20,10 +20,6 @@ return {
     },
     { 'nvim-telescope/telescope-ui-select.nvim' },
 
-    -- Useful for getting pretty icons, but requires special font.
-    --  If you already have a Nerd Font, or terminal set up with fallback fonts
-    --  you can enable this
-    { 'nvim-tree/nvim-web-devicons' },
   },
 
   -- Lazy load telescope when the `Telescope` command is executed.
@@ -90,6 +86,9 @@ return {
         selection_caret = '  ',
         prompt_prefix = '   ',
         layout_strategy = 'horizontal',
+        path_display = {
+          'filename_first',
+        },
         layout_config = {
           horizontal = {
             preview_width = 0.55,

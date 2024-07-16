@@ -15,9 +15,22 @@ return {
         },
       }
 
+      vim.filetype.add {
+        extension = { rasi = 'rasi', rofi = 'rasi', wofi = 'rasi' },
+        filename = {
+          ['vifmrc'] = 'vim',
+        },
+        pattern = {
+          ['.*/waybar/config'] = 'jsonc',
+          ['.*/mako/config'] = 'dosini',
+          ['.*/kitty/.+%.conf'] = 'bash',
+          ['.*/hypr/.+%.conf'] = 'hyprlang',
+          ['%.env%.[%w_.-]+'] = 'sh',
+        },
+      }
+
       local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-      local ft_to_parser = require('nvim-treesitter.parsers').filetype_to_parsername
-      ft_to_parser.mdx = 'markdown'
+      vim.treesitter.language.register('markdown', 'mdx')
 
       ---@diagnostic disable-next-line: inject-field
       parser_config.blade = {

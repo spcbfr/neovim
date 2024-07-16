@@ -12,6 +12,7 @@ vim.g.maplocalleader = ' '
 -- Make line numbers default
 vim.opt.number = true
 vim.opt.tabstop = 4
+vim.opt.shiftwidth = 0
 
 -- You can also add relative line numbers, for help with jumping.
 vim.opt.relativenumber = true
@@ -33,6 +34,9 @@ vim.opt.showmode = false
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.opt.clipboard = 'unnamedplus'
+
+-- Disable mouse right click
+vim.opt.mousemodel = 'extend'
 
 -- Enable break indent
 vim.opt.breakindent = true
