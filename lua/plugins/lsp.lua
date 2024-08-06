@@ -148,6 +148,12 @@ return {
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
         tsserver = {},
+        typst_lsp = {
+          settings = {
+            exportPdf = 'onSave', -- Choose onType, onSave or never.
+            -- serverPath = "" -- Normally, there is no need to uncomment it.
+          },
+        },
         phpactor = {
           enabled = true,
         },

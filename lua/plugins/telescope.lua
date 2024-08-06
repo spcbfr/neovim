@@ -19,7 +19,6 @@ return {
       end,
     },
     { 'nvim-telescope/telescope-ui-select.nvim' },
-
   },
 
   -- Lazy load telescope when the `Telescope` command is executed.
@@ -33,10 +32,11 @@ return {
     { '<leader>ss', require('telescope.builtin').builtin, desc = '[S]earch [S]elect telescope.builtin' },
     { '<leader>sw', require('telescope.builtin').grep_string, desc = '[S]earch current [W]ord' },
     { '<leader>sg', require('telescope.builtin').live_grep, desc = '[S]earch by [G]rep' },
+    { '<leader><leader>', require('telescope.builtin').live_grep, desc = '[S]earch by [G]rep' },
     { '<leader>sd', require('telescope.builtin').diagnostics, desc = '[S]earch [D]iagnostics' },
     { '<leader>sr', require('telescope.builtin').resume, desc = '[S]earch [R]esume' },
     { '<leader>?', require('telescope.builtin').oldfiles, desc = '[S]earch Recent Files ("." for repeat)' },
-    { '<leader><leader>', require('telescope.builtin').buffers, desc = '[ ] Find existing buffers' },
+    -- { '<leader><leader>', require('telescope.builtin').buffers, desc = '[ ] Find existing buffers' },
 
     -- Slightly advanced example of overriding default behavior and theme
     {

@@ -18,7 +18,6 @@ return {
 
   {
     'windwp/nvim-autopairs',
-    -- Optional dependency
     dependencies = { 'hrsh7th/nvim-cmp' },
     event = 'insertEnter',
     config = function()
@@ -30,6 +29,24 @@ return {
 
       ---@diagnostic disable-next-line: undefined-field
       cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+    end,
+  },
+  {
+    'kaarmu/typst.vim',
+    ft = 'typst',
+    lazy = false,
+  },
+  {
+    'MeanderingProgrammer/markdown.nvim',
+    main = 'render-markdown',
+    opts = {},
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' },
+  },
+  'onsails/lspkind.nvim',
+  {
+    'MagicDuck/grug-far.nvim',
+    config = function()
+      require('grug-far').setup {}
     end,
   },
   {
@@ -79,7 +96,6 @@ return {
     end,
   },
 
-  -- lazy.nvim
   {
     'NeogitOrg/neogit',
     dependencies = {
@@ -130,34 +146,7 @@ return {
         desc = 'Diagnostics (Trouble)',
       },
     },
-    -- opts = {
-    --   -- your configuration comes here
-    --   -- or leave it empty to use the default settings
-    --   icons = true,
-    --   signs = {
-    --     error = '',
-    --     warning = '',
-    --     hint = '',
-    --     information = '',
-    --     other = '',
-    --   },
-    -- },
   },
-
-  -- NOTE: Plugins can also be configured to run lua code when they are loaded.
-  --
-  -- This is often very useful to both group configuration, as well as handle
-  -- lazy loading plugins that don't need to be loaded immediately at startup.
-  --
-  -- For example, in the following configuration, we use:
-  --  event = 'VeryLazy'
-  --
-  -- which loads which-key after all the UI elements are loaded. Events can be
-  -- normal autocommands events (:help autocomd-events).
-  --
-  -- Then, because we use the `config` key, the configuration only runs
-  -- after the plugin has been loaded:
-  --  config = function() ... end
 
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
@@ -183,18 +172,22 @@ return {
     end,
   },
 
-  -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
-
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()
-      -- Better Around/Inside textobjects
-      --
-      -- Examples:
-      --  - va)  - [V]isually select [A]round [)]parenthen
-      --  - yinq - [Y]ank [I]nside [N]ext [']quote
-      --  - ci'  - [C]hange [I]nside [']quote
+      require('mini.surround').setup()
+
+      require('mini.hipatterns').setup {
+        highlighters = {
+          fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
+          hack = { pattern = '%f[%w]()HACK()%f[%W]', group = 'MiniHipatternsHack' },
+          todo = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
+          note = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
+
+          -- Highlight hex color strings (`#rrggbb`) using that color
+          hex_color = require('mini.hipatterns').gen_highlighter.hex_color(),
+        },
+      }
       require('mini.ai').setup { n_lines = 500 }
       require('mini.pairs').setup {
         modes = { insert = true, command = true, terminal = false },
@@ -209,16 +202,7 @@ return {
         markdown = true,
       }
 
-      -- Add/delete/replace surroundings (brackets, quotes, etc.)
-      --
-      -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-      -- - sd'   - [S]urround [D]elete [']quotes
-      -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
-
       require('mini.tabline').setup()
-      -- ... and there is more!
-      --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
   {
@@ -227,6 +211,4 @@ return {
       require('guess-indent').setup {}
     end,
   },
-
-  
 }

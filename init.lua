@@ -30,7 +30,7 @@ vim.opt.rtp:prepend(lazypath)
 -- to add a new plugin create a new file in lua/plugins/
 require('lazy').setup('plugins', {
   change_detection = {
-    enabled = false
+    enabled = false,
   },
 })
 
