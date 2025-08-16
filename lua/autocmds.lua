@@ -20,7 +20,7 @@ vim.api.nvim_create_autocmd({ 'UIEnter', 'ColorScheme' }, {
 })
 
 vim.api.nvim_create_autocmd('UILeave', {
-  desc = "Restore the original terminal background color",
+  desc = 'Restore the original terminal background color',
   callback = function()
     io.write '\027]111\027\\'
   end,

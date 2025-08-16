@@ -17,6 +17,13 @@
 return {
 
   {
+    'nanozuki/tabby.nvim',
+    ---@type TabbyConfig
+    opts = {
+      -- configs...
+    },
+  },
+  {
     'MagicDuck/grug-far.nvim',
     opts = {},
   },
@@ -28,7 +35,9 @@ return {
       style = 'night',
     },
   },
+  -- { 'cooper-anderson/glowbeam.nvim' },
   {
+
     'stevearc/oil.nvim',
     opts = {},
     dependencies = { 'echasnovski/mini.icons' },
@@ -77,6 +86,11 @@ return {
     event = 'VeryLazy', -- Sets the loading event to 'VeryLazy'
     config = function() -- This is the function that runs, AFTER loading
       require('which-key').setup {
+        plugins = {
+          spelling = {
+            enabled = false,
+          },
+        },
         win = {
           no_overlap = false,
           height = { min = 4, max = 25 },

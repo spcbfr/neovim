@@ -20,7 +20,7 @@ return {
   },
   keys = {
     {
-      '<leader>,',
+      '<leader><leader>',
       function()
         Snacks.picker.buffers()
       end,
@@ -61,6 +61,14 @@ return {
         Snacks.picker.lines()
       end,
       desc = 'Buffer Lines',
+    },
+
+    {
+      'z=',
+      function()
+        Snacks.picker.spelling()
+      end,
+      desc = 'Spelling',
     },
     {
       '<leader>sB',

@@ -25,6 +25,9 @@ map('n', '<leader>bd', ':bd<CR>', { noremap = true, silent = true, desc = 'delet
 map('n', '<leader>bs', ':w<CR>', { noremap = true, silent = true, desc = 'save buffer' })
 map('n', '<leader>qq', ':xa<CR>', { noremap = true, silent = true, desc = 'close neovim' })
 
+-- More ergonomic
+map('n', 'zl', 'za')
+
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
 --

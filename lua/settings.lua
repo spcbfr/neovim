@@ -21,8 +21,6 @@ vim.o.mouse = 'a'
 -- instead let's use a single global statusline
 vim.o.laststatus = 3
 
-vim.o.showtabline = 0
-
 -- Keep the cursor a block in insert moderate
 -- vim.opt.guicursor = 'i:block'
 
