@@ -1,20 +1,13 @@
---[[
-                         ________
-                       / ======= \
-                      / __________\
-       Yusuf's       | ___________ |     free pal3stine!
-    Neovim Config    | | -       | |
-                     | |         | |
-                     | |_________| |
-                     \=____________/
-                     / """"""""""" \    distant cousin 
-                    / ::::::::::::: \    of kickstart.nvim
-                   (_________________)
---]]
-
 require 'settings'
 require 'mappings'
-require 'autocmds'
+
+vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Highlight when yanking (copying) text',
+  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
 
 -- Installing the Lazy.nvim™ Package Manager
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -32,6 +25,7 @@ require('lazy').setup('plugins', {
   },
 })
 
+require 'lspconf'
 vim.cmd 'colorscheme tokyonight'
 vim.o.background = 'dark'
 

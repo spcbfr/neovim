@@ -1,10 +1,11 @@
+---@diagnostic disable: undefined-global
 return {
   'folke/snacks.nvim',
-  ---@type snacks.Config
   opts = {
     indent = {},
     notify = {},
     picker = {
+      exclude = { 'public' },
       win = {
         input = {
           keys = {
@@ -22,10 +23,19 @@ return {
     {
       '<leader><leader>',
       function()
+        ---@module "snacks"
         Snacks.picker.buffers()
       end,
       desc = 'Find Open Buffers',
     },
+    {
+      'grr',
+      function()
+        Snacks.picker.lsp_references()
+      end,
+      desc = 'Find Open Buffers',
+    },
+
     {
       '<leader>:',
       function()
@@ -47,14 +57,6 @@ return {
       end,
       desc = 'Recent Files',
     },
-    -- {
-    --   '<c-/>',
-    --   function()
-    --     Snacks.terminal()
-    --   end,
-    --   desc = 'Toggle Terminal',
-    -- },
-    -- Grep
     {
       '<leader>sb',
       function()

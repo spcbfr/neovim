@@ -1,22 +1,12 @@
--- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
-vim.o.winborder = 'rounded'
+vim.o.winborder = 'shadow'
+vim.opt.hlsearch = true
 
--- Make line numbers default
 vim.o.number = true
 vim.o.relativenumber = true
+
 vim.o.tabstop = 4
 vim.o.shiftwidth = 0
-
-vim.diagnostic.config {
-  severity_sort = true,
-  float = { header = 'You can fix this!' },
-  underline = { severity = vim.diagnostic.severity.ERROR },
-  virtual_text = { current_line = true },
-}
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
@@ -27,6 +17,7 @@ vim.o.laststatus = 3
 
 -- Keep the cursor a block in insert moderate
 -- vim.opt.guicursor = 'i:block'
+vim.o.spelllang = 'en,fr'
 
 -- Sync clipboard between OS and Neovim.
 vim.o.clipboard = 'unnamedplus'
@@ -69,3 +60,10 @@ vim.o.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.o.scrolloff = 10
+
+vim.diagnostic.config {
+  severity_sort = true,
+  float = { header = 'You can fix this!', source = 'if_many' },
+  underline = { severity = vim.diagnostic.severity.ERROR },
+  virtual_text = { current_line = true },
+}

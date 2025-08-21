@@ -16,29 +16,6 @@
 
 return {
 
-  { 'j-hui/fidget.nvim', opts = {} },
-  {
-    'neovim/nvim-lspconfig',
-    event = { 'BufReadPost', 'BufNewFile' },
-    cmd = { 'LspInfo', 'LspInstall', 'LspUninstall' },
-    config = function()
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities())
-      vim.lsp.enable { 'lua_ls', 'phpactor', 'gopls' }
-    end,
-  },
-
-  { 'williamboman/mason.nvim', opts = {} },
-  {
-    'nanozuki/tabby.nvim',
-    ---@type TabbyConfig
-    opts = {},
-  },
-  { 'wakatime/vim-wakatime' },
-  {
-    'MagicDuck/grug-far.nvim',
-    opts = {},
-  },
   {
     'folke/tokyonight.nvim',
     lazy = false,
@@ -55,7 +32,7 @@ return {
         show_hidden = true,
         natural_order = 'fast',
         is_always_hidden = function(name, _)
-          return name == '..' or name == '.git'
+          return name == '..' or name == '.git' or name == ''
         end,
       },
     },
@@ -68,10 +45,18 @@ return {
   },
   {
     'chomosuke/typst-preview.nvim',
-    lazy = false, -- or ft = 'typst'
+    ft = 'typst',
     version = '1.*',
-    opts = {}, -- lazy.nvim will implicitly calls `setup {}`
+    opts = {},
   },
+
+  { 'j-hui/fidget.nvim', opts = {} },
+  { 'williamboman/mason.nvim', opts = {} },
+  'neovim/nvim-lspconfig',
+  { 'nanozuki/tabby.nvim', opts = {} },
+  { 'MagicDuck/grug-far.nvim', opts = {} },
+  { 'NMAC427/guess-indent.nvim', opts = {} },
+  'wakatime/vim-wakatime',
 
   {
     'NeogitOrg/neogit',
@@ -134,6 +119,4 @@ return {
       }
     end,
   },
-
-  { 'NMAC427/guess-indent.nvim', opts = {} },
 }

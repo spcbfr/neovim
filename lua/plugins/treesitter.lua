@@ -25,7 +25,6 @@ return {
       local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
       vim.treesitter.language.register('markdown', 'mdx')
 
-      ---@diagnostic disable-next-line: inject-field
       parser_config.blade = {
         install_info = {
           url = 'https://github.com/EmranMR/tree-sitter-blade',
@@ -34,7 +33,6 @@ return {
         },
         filetype = 'blade',
       }
-      ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup {
         ensure_installed = { 'bash', 'todotxt', 'org', 'c', 'html', 'tsx', 'lua', 'markdown', 'vim', 'vimdoc' },
         auto_install = true,
@@ -62,10 +60,7 @@ return {
 
           select = {
             enable = true,
-
-            -- Automatically jump forward to textobj, similar to targets.vim
             lookahead = true,
-
             keymaps = {
               ['af'] = '@function.outer',
               ['if'] = '@function.inner',
