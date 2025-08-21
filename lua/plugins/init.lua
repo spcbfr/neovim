@@ -16,13 +16,25 @@
 
 return {
 
+  { 'j-hui/fidget.nvim', opts = {} },
+  {
+    'neovim/nvim-lspconfig',
+    event = { 'BufReadPost', 'BufNewFile' },
+    cmd = { 'LspInfo', 'LspInstall', 'LspUninstall' },
+    config = function()
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities())
+      vim.lsp.enable { 'lua_ls', 'phpactor', 'gopls' }
+    end,
+  },
+
+  { 'williamboman/mason.nvim', opts = {} },
   {
     'nanozuki/tabby.nvim',
     ---@type TabbyConfig
-    opts = {
-      -- configs...
-    },
+    opts = {},
   },
+  { 'wakatime/vim-wakatime' },
   {
     'MagicDuck/grug-far.nvim',
     opts = {},
@@ -35,16 +47,30 @@ return {
       style = 'night',
     },
   },
-  -- { 'cooper-anderson/glowbeam.nvim' },
   {
-
     'stevearc/oil.nvim',
-    opts = {},
+    opts = {
+      skip_confirm_for_simple_edits = true,
+      view_options = {
+        show_hidden = true,
+        natural_order = 'fast',
+        is_always_hidden = function(name, _)
+          return name == '..' or name == '.git'
+        end,
+      },
+    },
     dependencies = { 'echasnovski/mini.icons' },
     lazy = false,
+
     keys = {
       { '-', '<CMD>Oil<CR>', desc = 'Open Parent Directory' },
     },
+  },
+  {
+    'chomosuke/typst-preview.nvim',
+    lazy = false, -- or ft = 'typst'
+    version = '1.*',
+    opts = {}, -- lazy.nvim will implicitly calls `setup {}`
   },
 
   {
@@ -83,8 +109,8 @@ return {
 
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
-    event = 'VeryLazy', -- Sets the loading event to 'VeryLazy'
-    config = function() -- This is the function that runs, AFTER loading
+    event = 'VeryLazy',
+    config = function()
       require('which-key').setup {
         plugins = {
           spelling = {

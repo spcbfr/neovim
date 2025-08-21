@@ -8,15 +8,8 @@ return {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     config = function()
-      -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
       vim.filetype.add {
-        extension = {
-          mdx = 'mdx',
-        },
-      }
-
-      vim.filetype.add {
-        extension = { rasi = 'rasi', rofi = 'rasi', wofi = 'rasi' },
+        extension = { mdx = 'mdx', rasi = 'rasi', rofi = 'rasi', wofi = 'rasi' },
         filename = {
           ['vifmrc'] = 'vim',
         },
@@ -44,19 +37,26 @@ return {
       ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup {
         ensure_installed = { 'bash', 'todotxt', 'org', 'c', 'html', 'tsx', 'lua', 'markdown', 'vim', 'vimdoc' },
-        -- Autoinstall languages that are not installed
         auto_install = true,
         highlight = { enable = true },
         indent = { enable = true },
         textobjects = {
-
+          move = {
+            enable = true,
+            goto_next_start = {
+              [']f'] = '@function.outer',
+            },
+            goto_previous_start = {
+              ['[f'] = '@function.outer',
+            },
+          },
           swap = {
             enable = true,
             swap_next = {
-              ['<leader>a'] = '@parameter.inner',
+              ['<leader>an'] = '@parameter.inner',
             },
             swap_previous = {
-              ['<leader>A'] = '@parameter.inner',
+              ['<leader>ap'] = '@parameter.inner',
             },
           },
 
@@ -69,15 +69,9 @@ return {
             keymaps = {
               ['af'] = '@function.outer',
               ['if'] = '@function.inner',
-              ['ac'] = '@class.outer',
+              ['ac'] = '@call.outer',
+              ['ic'] = '@call.inner',
               ['aa'] = '@parameter.outer',
-              ['ic'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
-              ['as'] = { query = '@scope', query_group = 'locals', desc = 'Select language scope' },
-            },
-            selection_modes = {
-              ['@parameter.outer'] = 'v', -- charwise
-              ['@function.outer'] = 'V', -- linewise
-              ['@class.outer'] = '<c-v>', -- blockwise
             },
             include_surrounding_whitespace = true,
           },

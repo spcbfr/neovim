@@ -1,7 +1,7 @@
 --         _,--',   _._.--._____
 --  .--.--';_'-.', ";_      _.,-'
 -- .'--'.  _.'    {`'-;_ .-.>.'
---       '-:_      )  / `' '=.      Get it? this file is mappings.lua
+--       '-:_      )  / `' '=.      Get it? This file is mappings.lua
 --         ) >     {_/,     /~)     and this is an ascii art of a map
 --         |/               `^ .'
 
@@ -11,14 +11,11 @@ local map = vim.keymap.set
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
--- Diagnostic keymaps
-map('n', '[d', function()
-  vim.diagnostic.jump { count = 1, float = true }
-end, { desc = 'Go to previous [D]iagnostic message' })
-map('n', ']d', function()
-  vim.diagnostic.jump { count = 1, float = true }
-end, { desc = 'Go to next [D]iagnostic message' })
 map('n', '<leader>de', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
+
+vim.lsp.inlay_hint.enable(true)
+
+map('n', 'gd', vim.lsp.buf.definition, { desc = 'Show diagnostic [E]rror messages' })
 
 -- Doom Emacs-inspired keymaps
 map('n', '<leader>bd', ':bd<CR>', { noremap = true, silent = true, desc = 'delete buffer' })
@@ -27,6 +24,8 @@ map('n', '<leader>qq', ':xa<CR>', { noremap = true, silent = true, desc = 'close
 
 -- More ergonomic
 map('n', 'zl', 'za')
+map('n', 'z+', 'za')
+map('t', '<c-\\>', '<c-\\><c-n>')
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows

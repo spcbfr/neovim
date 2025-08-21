@@ -47,13 +47,13 @@ return {
       end,
       desc = 'Recent Files',
     },
-    {
-      '<c-/>',
-      function()
-        Snacks.terminal()
-      end,
-      desc = 'Toggle Terminal',
-    },
+    -- {
+    --   '<c-/>',
+    --   function()
+    --     Snacks.terminal()
+    --   end,
+    --   desc = 'Toggle Terminal',
+    -- },
     -- Grep
     {
       '<leader>sb',

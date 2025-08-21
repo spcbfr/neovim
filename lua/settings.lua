@@ -7,12 +7,16 @@ vim.o.winborder = 'rounded'
 
 -- Make line numbers default
 vim.o.number = true
+vim.o.relativenumber = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 0
 
-vim.diagnostic.config { virtual_lines = false }
-
-vim.o.relativenumber = true
+vim.diagnostic.config {
+  severity_sort = true,
+  float = { header = 'You can fix this!' },
+  underline = { severity = vim.diagnostic.severity.ERROR },
+  virtual_text = { current_line = true },
+}
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
