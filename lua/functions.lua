@@ -7,35 +7,39 @@ function packadd(name)
 end
 local group = vim.api.nvim_create_augroup("plugins", {})
 
-function loader(spec)
-    local data = spec.data
-    local configured = false
-    print(spec)
+function loader(p)
+    
+    if (p.spec.data) then
+        local data = p.spec.data
+        local configured = false
 
-    if(data.event) then
-        vim.api.nvim_create_autocmd(data.event, {
-            group = group,
-            callback = function ()
-                packadd(spec.name)
-                if(data.config and not configured) then
-                    data.config()
-                    configured = true
+        if(data.event) then
+            vim.api.nvim_create_autocmd(data.event, {
+                group = group,
+                callback = function ()
+                    packadd(p.spec.name)
+                    if(data.config and not configured) then
+                        data.config()
+                        configured = true
+                    end
                 end
-            end
-        })
-    end
+            })
+        end
 
-    if (data.opts) then 
-        packadd(spec.name)
-        if (data.opts == true) then
-            require(spec.name).setup()
-        else
-            require(spec.name).setup(data.opts)
+        if (data.opts) then 
+            packadd(p.spec.name)
+            if (data.opts == true) then
+                require(p.spec.name).setup()
+            else
+                require(p.spec.name).setup(data.opts)
+            end
+        end
+
+        if (data.config and not configured) then
+            data.config()
+            configured = true
         end
     end
 
-    if (data.config and not configured) then
-        data.config()
-        configured = true
-    end
+    packadd(p.spec.name)
 end

@@ -52,19 +52,24 @@ vim.cmd.colorscheme "tokyonight-night"
 vim.pack.add { _'echasnovski/mini.nvim' }
 
 require('mini.icons').setup()
+require('mini.statusline').setup()
 require('clues')
 require('mini.diff').setup({
-    view = {
-        style = "sign",
-    }
+    view = { style = "sign", }
 })
-require('mini.surround').setup()
-require('mini.statusline').setup()
 require('mini.pairs').setup({
     skip_ts = { 'string' },
     skip_unbalanced = true,
     markdown = true,
 })
+
+vim.api.nvim_create_autocmd('InsertEnter', {
+    once = true,
+    callback = function ()
+        require('mini.surround').setup()
+    end
+})
+
 
 vim.pack.add { _'stevearc/oil.nvim'}
 vim.pack.add { _'nvim-lua/plenary.nvim'}
@@ -86,16 +91,25 @@ require("oil").setup {
 
 vim.keymap.set('n', '-', ":Oil<cr>")
 
-vim.pack.add { _'neovim/nvim-lspconfig'}
-vim.pack.add { _'mason-org/mason.nvim'}
-
-vim.pack.add {{ src= _'saghen/blink.cmp', version=vim.version.range('v1.*')}}
-
-require("mason").setup()
-require("blink.cmp").setup({
-    completion = { documentation = { auto_show = true } },
-})
-
+vim.pack.add ({
+    {
+        src = _ 'neovim/nvim-lspconfig',
+        name = "lspconfig"
+    },
+    {
+        src = 'https://github.com/mason-org/mason.nvim',
+        name = "mason",
+        data = { opts = true }
+    },
+    {
+        src = 'https://github.com/saghen/blink.cmp',
+        version = vim.version.range('v1.*'),
+        data = {
+            event = "BufReadPre",
+            opts = { completion = { documentation = { auto_show = true } } },
+        }
+    },
+}, {load = loader})
 
 vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
