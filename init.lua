@@ -1,3 +1,4 @@
+require('vim._extui').enable({})
 vim.opt.number         = true
 vim.opt.relativenumber = true
 
@@ -28,6 +29,7 @@ vim.o.list             = true
 vim.opt.listchars      = { tab = '» ', trail = '·', nbsp = '␣' }
 
 vim.opt.confirm        = true
+vim.o.statuscolumn = "%l %s"
 
 
 -- Copy/paste with system clipboard
@@ -55,7 +57,7 @@ require('mini.icons').setup()
 require('mini.statusline').setup()
 require('clues')
 require('mini.diff').setup({
-    view = { style = "sign", }
+    view = { style = "number", }
 })
 require('mini.pairs').setup({
     skip_ts = { 'string' },
@@ -93,20 +95,27 @@ vim.keymap.set('n', '-', ":Oil<cr>")
 
 vim.pack.add ({
     {
-        src = _ 'neovim/nvim-lspconfig',
-        name = "lspconfig"
+        src = _'neovim/nvim-lspconfig',
+        name = "lspconfig",
+
+        data = {events = "BufReadPre", config = function () require('lspconfig') end}
     },
     {
-        src = 'https://github.com/mason-org/mason.nvim',
+        src = _'j-hui/fidget.nvim',
+        name = "fidget",
+        data = {events = "BufReadPre", config = true}
+    },
+    {
+        src = _'mason-org/mason.nvim',
         name = "mason",
-        data = { opts = true }
+        data = {events = "BufReadPre", config = true }
     },
     {
-        src = 'https://github.com/saghen/blink.cmp',
+        src = _'saghen/blink.cmp',
         version = vim.version.range('v1.*'),
         data = {
-            event = "BufReadPre",
-            opts = { completion = { documentation = { auto_show = true } } },
+            events = "LspAttach",
+            config = { completion = { documentation = { auto_show = true } } },
         }
     },
 }, {load = loader})
