@@ -47,8 +47,6 @@ require('lualine').setup {
             },
         },
         lualine_c = {
-            { 'grapple', padding = { left = 1, right = 0 } },
-
             {
                 'diagnostics',
                 sources = { 'nvim_diagnostic' },
@@ -59,6 +57,7 @@ require('lualine').setup {
                     info = { 'DiagnosticsInfo' },
                 },
             },
+            { 'grapple', padding = { left = 1, right = 0 } },
         },
         lualine_x = {
             {

@@ -1,6 +1,3 @@
--- require('vim._extui').enable({})
-
--- ========= Options ===========
 vim.opt.number         = true
 vim.opt.relativenumber = true
 
@@ -43,14 +40,23 @@ vim.opt.confirm        = true
 
 vim.opt.wildmenu       = true
 vim.opt.wildmode       = "noselect:lastused,full"
+if vim.fn.executable "rg" == 1 then
+    vim.opt.grepprg = "rg --vimgrep --smart-case"
+end
 
 vim.opt.iskeyword:append('-') -- consider dash-seperated words as singular words
 
--- ========== Plugin Agnostic Keymaps =========
 vim.keymap.set('n', 'zl', 'za')
 vim.keymap.set('n', '<esc>', '<cmd>nohlsearch<cr>')
-vim.keymap.set({ 'i', 't' }, 'jk', '<esc>')
-vim.keymap.set('n', '<leader>va', vim.pack.update, { desc = "Update Packages" })
+vim.api.nvim_create_user_command('Pack', function(_)
+    vim.pack.update()
+end, { desc = "update packages" })
+vim.api.nvim_create_user_command('WipeReg', function(_)
+    for i = 34, 122 do
+        vim.fn.setreg(vim.fn.nr2char(i), nil)
+    end
+end, { desc = "Wipe all registers" })
+
 
 vim.api.nvim_create_autocmd('TextYankPost', {
     desc = 'Highlight when yanking (copying) text',
@@ -64,9 +70,7 @@ vim.filetype.add({
     },
 })
 
-
-if vim.fn.executable "rg" == 1 then
-    vim.opt.grepprg = "rg --vimgrep"
+if vim.fn.executable "fd" == 1 then
     function _G.RgFindFiles(cmdarg, _cmdcomplete)
         local fnames = vim.fn.systemlist('fd --color never --type file')
         if #cmdarg == 0 then
@@ -93,6 +97,8 @@ vim.api.nvim_create_autocmd('CmdlineChanged', {
     end
 })
 
+-- require('vim._extui').enable({})
+
 vim.pack.add {
     "https://github.com/vague2k/vague.nvim",
     "https://github.com/folke/tokyonight.nvim",
@@ -103,97 +109,8 @@ vim.pack.add {
 
 vim.cmd.colorscheme "kanagawa"
 
--- =========== snacks ==============
-vim.pack.add { 'https://github.com/folke/snacks.nvim' }
-vim.pack.add { "https://github.com/folke/which-key.nvim" }
-local wk = require('which-key')
-wk.setup()
-wk.add({
-    { 'gx', desc = "xdg-open uri under cursor" },
-    { 'gr', desc = "LSP" }
-})
-
-local Snacks = require('snacks')
-Snacks.setup {
-    notifier = {},
-    image = {
-        convert = {
-            notify = false
-        }
-    },
-    math = {
-        enabled = false
-    },
-    statuscolumn = {},
-    picker = {
-        win = {
-            input = {
-                keys = { ["<Esc>"] = { "close", mode = { "n", "i" } }, }
-            }
-        }
-    },
-    indent = {},
-}
-vim.keymap.set('n', '<leader>sf', function() Snacks.picker.files() end, { desc = "Search Files" })
-vim.keymap.set('n', '<leader>sh', function() Snacks.picker.help() end, { desc = "Search Help" })
-vim.keymap.set('n', '<leader>sa', function() Snacks.picker.autocmds() end, { desc = "Search Autocmds" })
-vim.keymap.set('n', '<leader>?', function() Snacks.picker.recent() end, { desc = "Recent" })
-vim.keymap.set('n', '<leader>sH', function() Snacks.picker.highlights() end, { desc = "Search Highlight Groups" })
-vim.keymap.set('n', '<leader>sg', function() Snacks.picker.grep() end, { desc = "Grep Search Project" })
-
--- =========== mini.nvim ==============
-vim.pack.add { 'https://github.com/nvim-mini/mini.nvim' }
-require('mini.icons').setup()
-vim.api.nvim_set_hl(0, 'MiniDiffSignChange', { fg = "#e99e59" })
-require('mini.pairs').setup({
-    skip_ts = { 'string' },
-    modes = { insert = true, command = true, terminal = true },
-    skip_unbalanced = true,
-    markdown = true,
-})
-require('mini.surround').setup()
-require('mini.diff').setup({
-    view = { style = "sign", signs = { add = "+", change = "~", delete = "-" } }
-})
-
+require('miscellaneous')
 require("statusline")
-
--- ======== Grapple =========
-vim.pack.add { { src = 'https://github.com/cbochs/grapple.nvim', name = "grapple" } }
-local grapple = require('grapple')
-grapple.setup({ scope = "git" })
-vim.keymap.set('n', '<leader>m', grapple.toggle, { desc = "toggle tag" })
-vim.keymap.set('n', '<leader>k', grapple.toggle_tags, { desc = "open tags window" })
-vim.keymap.set('n', '<leader>1', ":Grapple select index=1<cr>", { desc = "Go to tag 1", silent = true })
-vim.keymap.set('n', '<leader>2', ":Grapple select index=2<cr>", { desc = "Go to tag 2", silent = true })
-vim.keymap.set('n', '<leader>3', ":Grapple select index=3<cr>", { desc = "Go to tag 3", silent = true })
-vim.keymap.set('n', '<leader>4', ":Grapple select index=4<cr>", { desc = "Go to tag 4", silent = true })
-
--- ========== Explorer ===========
-vim.pack.add { 'https://github.com/stevearc/oil.nvim' }
-require("oil").setup {
-    skip_confirm_for_simple_edits = true,
-    keymaps = {
-        ['<leader>x'] = {
-            desc = "Run command on file under cursor",
-            callback = function()
-                local file = require('oil').get_cursor_entry().name
-                vim.ui.input({ prompt = "Command: " }, function(input)
-                    if (input) then vim.cmd('!' .. input .. " " .. file) end
-                end)
-            end
-
-        },
-    },
-    view_options = {
-        show_hidden = true,
-        natural_order = 'fast',
-        is_always_hidden = function(name, _)
-            return name == '..' or name == '.git'
-        end,
-    },
-}
-vim.keymap.set('n', '-', ":Oil<cr>", { silent = true })
 
 vim.pack.add { 'https://github.com/nvim-treesitter/nvim-treesitter' }
 require('nvim-treesitter.configs').setup {
@@ -202,23 +119,12 @@ require('nvim-treesitter.configs').setup {
     indent = { enable = true }
 }
 
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-parser_config.blade = {
-    install_info = {
-        url = "https://github.com/EmranMR/tree-sitter-blade",
-        files = { "src/parser.c" },
-        branch = "main",
-    },
-    filetype = "blade",
-}
 vim.pack.add {
     'https://github.com/nvim-lua/plenary.nvim',
     'https://github.com/chomosuke/typst-preview.nvim',
-    "https://github.com/neovim/nvim-lspconfig",
+    'https://github.com/neovim/nvim-lspconfig',
     'https://github.com/mason-org/mason.nvim',
-    'https://github.com/NeogitOrg/neogit' }
-
-vim.keymap.set('n', '<leader>ng', require('neogit').open, { desc = "Neogit" })
+}
 
 require('lspconfig')
 require('mason').setup()
@@ -255,7 +161,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 -- automatically enable LSP servers in lsp/
-local lsp_config_paths = vim.split(vim.fn.glob("~/.config/nvim/lsp/*"), '\n', { trimempty = true })
+local lsp_config_paths = vim.split(vim.fn.glob(vim.fn.stdpath('config') .. '/lsp/*'), '\n', { trimempty = true })
 local servers = vim.tbl_map(function(path)
     local split = vim.split(path, '/')
     local filename = split[#split]
